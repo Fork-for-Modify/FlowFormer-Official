@@ -8,12 +8,12 @@ _CN.max_flow = 400
 _CN.batch_size = 6
 _CN.sum_freq = 100
 _CN.val_freq = 5000000
-_CN.image_size = [432, 960]
+_CN.image_size = [216, 480] # zzh: original - [432, 960]
 _CN.add_noise = True
 _CN.critical_params = []
 
 _CN.transformer = 'latentcostformer'
-_CN.restore_ckpt = 'checkpoints/things.pth'
+_CN.restore_ckpt = 'checkpoints/sintel.pth'
 
 # latentcostformer
 _CN.latentcostformer = CN()

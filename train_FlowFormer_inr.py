@@ -17,9 +17,8 @@ import torch.nn.functional as F
 
 from torch.utils.data import DataLoader
 from core import optimizer
-import evaluate_FlowFormer_inr as evaluate
-import evaluate_FlowFormer_tile as evaluate_tile
-import core.datasets as datasets
+import evaluate_FlowFormer_inr as evaluate_inr
+import core.datasets_inr as datasets_inr
 from core.loss import sequence_loss
 from core.optimizer import fetch_optimizer
 from core.utils.misc import process_cfg
@@ -64,7 +63,7 @@ def train(cfg):
     model.cuda()
     model.train()
 
-    train_loader = datasets.fetch_dataloader(cfg)
+    train_loader = datasets_inr.fetch_dataloader(cfg)
     optimizer, scheduler = fetch_optimizer(model, cfg.trainer)
 
     total_steps = 0
@@ -103,16 +102,13 @@ def train(cfg):
 
             if total_steps % cfg.val_freq == cfg.val_freq - 1:
                 PATH = '%s/%d_%s.pth' % (cfg.log_dir, total_steps+1, cfg.name)
-                # torch.save(model.state_dict(), PATH)
+                torch.save(model.state_dict(), PATH)
 
                 results = {}
                 for val_dataset in cfg.validation:
-                    if val_dataset == 'chairs':
-                        results.update(evaluate.validate_chairs(model.module))
-                    elif val_dataset == 'sintel':
-                        results.update(evaluate.validate_sintel(model.module))
-                    elif val_dataset == 'kitti':
-                        results.update(evaluate.validate_kitti(model.module))
+                    if val_dataset == 'sintel_inr':
+                        results.update(evaluate_inr.validate_sintel_inr(model.module))
+
 
                 logger.write_dict(results)
 
@@ -138,21 +134,16 @@ if __name__ == '__main__':
     parser.add_argument('--name', default='flowformer', help="name your experiment")
     parser.add_argument('--stage', help="determines which dataset to use for training")
     parser.add_argument('--validation', type=str, nargs='+')
-
+    parser.add_argument('--image_root', help="images in dataset")
+    parser.add_argument('--flow_root', help="flows in dataset")
+    parser.add_argument('--occlu_root', default=None, help="occlusion maps in dataset")
     parser.add_argument('--mixed_precision', action='store_true', help='use mixed precision')
 
     args = parser.parse_args()
 
-    if args.stage == 'chairs':
-        from configs.default import get_cfg
-    elif args.stage == 'things':
-        from configs.things import get_cfg
-    elif args.stage == 'sintel':
+    if args.stage == 'sintel_inr':
         from configs.sintel import get_cfg
-    elif args.stage == 'kitti':
-        from configs.kitti import get_cfg
-    elif args.stage == 'autoflow':
-        from configs.autoflow import get_cfg
+
 
     cfg = get_cfg()
     cfg.update(vars(args))

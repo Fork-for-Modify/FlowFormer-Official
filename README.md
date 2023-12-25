@@ -1,9 +1,9 @@
 # FlowFormer: A Transformer Architecture for Optical Flow
-### [Project Page](https://drinkingcoder.github.io/publication/flowformer/) 
+### [Project Page](https://drinkingcoder.github.io/publication/flowformer/)
 
-> FlowFormer: A Transformer Architecture for Optical Flow    
-> [Zhaoyang Huang](https://drinkingcoder.github.io)<sup>\*</sup>, Xiaoyu Shi<sup>\*</sup>, Chao Zhang, Qiang Wang, Ka Chun Cheung, [Hongwei Qin](http://qinhongwei.com/academic/), [Jifeng Dai](https://jifengdai.org/), [Hongsheng Li](https://www.ee.cuhk.edu.hk/~hsli/)  
-> ECCV 2022  
+> FlowFormer: A Transformer Architecture for Optical Flow
+> [Zhaoyang Huang](https://drinkingcoder.github.io)<sup>\*</sup>, Xiaoyu Shi<sup>\*</sup>, Chao Zhang, Qiang Wang, Ka Chun Cheung, [Hongwei Qin](http://qinhongwei.com/academic/), [Jifeng Dai](https://jifengdai.org/), [Hongsheng Li](https://www.ee.cuhk.edu.hk/~hsli/)
+> ECCV 2022
 
 
 <img src="assets/teaser.png">
@@ -17,7 +17,7 @@ Please also refer to our [FlowFormer++](https://github.com/XiaoyuShi97/FlowForme
 - [x] Models release (2022-8-1)
 
 ## Data Preparation
-Similar to RAFT, to evaluate/train FlowFormer, you will need to download the required datasets. 
+Similar to RAFT, to evaluate/train FlowFormer, you will need to download the required datasets.
 * [FlyingChairs](https://lmb.informatik.uni-freiburg.de/resources/datasets/FlyingChairs.en.html#flyingchairs)
 * [FlyingThings3D](https://lmb.informatik.uni-freiburg.de/resources/datasets/SceneFlowDatasets.en.html)
 * [Sintel](http://sintel.is.tue.mpg.de/)
@@ -69,7 +69,7 @@ We provide [models](https://drive.google.com/drive/folders/1K2dcWxaqOLiQ3PoqRdok
     ├── things.pth
     ├── sintel.pth
     ├── kitti.pth
-    ├── flowformer-small.pth 
+    ├── flowformer-small.pth
     ├── things_kitti.pth
 ```
 flowformer-small.pth is a small version of our flowformer. things_kitti.pth is the FlowFormer# introduced in our [supplementary](https://drinkingcoder.github.io/publication/flowformer/images/FlowFormer-supp.pdf), used for KITTI training set evaluation.
