@@ -16,6 +16,7 @@ from core.utils.misc import process_cfg
 import datasets_inr
 from utils import flow_viz
 from utils import frame_utils
+from torchvision.utils import save_image
 
 # from FlowFormer import FlowFormer
 from core.FlowFormer import build_flowformer
@@ -54,6 +55,12 @@ def validate_sintel_inr(model, image_root, flow_root,occlu_root=None):
 
             flow_pre = padder.unpad(flow_pre[0]).cpu()[0]
 
+            # save flow_pre
+            flow_pre_png = flow_viz.flow_to_image(flow_pre.permute(1, 2, 0).numpy())
+            flow_gt_png = flow_viz.flow_to_image(flow_gt.permute(1, 2, 0).numpy())
+            # save_image(torch.from_numpy(flow_pre_png).permute(2, 0, 1)/255, f'logs/test/{dstype}/flow_pre_{val_id}.png')
+            save_image([torch.from_numpy(flow_pre_png).permute(2, 0, 1)/255,torch.from_numpy(flow_gt_png).permute(2, 0, 1)/255], f'logs/test/{dstype}/flow_res_{val_id}.png')
+
             epe = torch.sum((flow_pre - flow_gt)**2, dim=0).sqrt()
             epe_list.append(epe.view(-1).numpy())
             if occlu_root:
@@ -70,17 +77,21 @@ def validate_sintel_inr(model, image_root, flow_root,occlu_root=None):
         # px5 = np.mean(epe_all<5)
 
         # print("Validation (%s) EPE: %f, 1px: %f, 3px: %f, 5px: %f" % (dstype, epe, px1, px3, px5))
-        results[dstype] = np.mean(epe_list)
+        results[dstype+'_all'] = np.mean(epe_list)
 
         if occlu_root:
             matched_epe = np.mean(np.concatenate(matched_epe_list))
             unmatched_epe = np.mean(np.concatenate(unmatched_epe_list))
-
-            print('===> Validatation Sintel (%s): all epe: %.3f matched epe: %.3f, unmatched epe: %.3f' % (
-                dstype, epe, matched_epe, unmatched_epe))
-
             results[dstype + '_matched'] = matched_epe
             results[dstype + '_unmatched'] = unmatched_epe
+            print('===> Validatation Sintel (%s): all epe: %.3f matched epe: %.3f, unmatched epe: %.3f' % (
+                dstype, epe, matched_epe, unmatched_epe))
+        else:
+            print('===> Validatation Sintel (%s): all epe: %.3f' % (dstype, epe))
+
+
+    with open('logs/test/sintel_inr.txt', 'w') as f:
+        f.write(str(results))
 
     return results
 

@@ -11,7 +11,7 @@ pip install yacs loguru einops timm==0.4.12 imageio opencv-python
 ## Test
 
 ```shell
-python evaluate_FlowFormer_inr.py --dataset sintel_inr --model checkpoints/sintel.pth --image_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_test_ratio_1_steps_20000_dec/ --flow_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_test_resized_flows/ --occlu_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_test_resized_occlusions/
+python evaluate_FlowFormer_inr.py --dataset sintel_inr --model logs/sintel_inr/record/sintel_inr.pth --image_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_test_ratio_1_steps_20000_dec/ --flow_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_test_resized_flows/ --occlu_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_test_resized_occlusions/
 ```
 
 ## Train
