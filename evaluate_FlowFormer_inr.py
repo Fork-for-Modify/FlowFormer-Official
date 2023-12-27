@@ -9,9 +9,10 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
-from configs.default import get_cfg
-from configs.things_eval import get_cfg as get_things_cfg
-from configs.small_things_eval import get_cfg as get_small_things_cfg
+# from configs.default import get_cfg
+# from configs.things_eval import get_cfg as get_things_cfg
+# from configs.small_things_eval import get_cfg as get_small_things_cfg
+from configs.sintel_inr import get_cfg
 from core.utils.misc import process_cfg
 import datasets_inr
 from utils import flow_viz
@@ -108,17 +109,19 @@ if __name__ == '__main__':
     parser.add_argument('--mixed_precision', action='store_true', help='use mixed precision')
     parser.add_argument('--alternate_corr', action='store_true', help='use efficent correlation implementation')
     args = parser.parse_args()
-    # cfg = get_cfg()
-    if args.small:
-        cfg = get_small_things_cfg()
-    else:
-        cfg = get_things_cfg()
+    cfg = get_cfg()
+    # if args.small:
+    #     cfg = get_small_things_cfg()
+    # else:
+    #     cfg = get_things_cfg()
     cfg.update(vars(args))
 
     model = torch.nn.DataParallel(build_flowformer(cfg))
     model.load_state_dict(torch.load(cfg.model))
 
     print(args)
+    os.makedirs('logs/test/clean', exist_ok=True)
+    os.makedirs('logs/test/final', exist_ok=True)
 
     model.cuda()
     model.eval()

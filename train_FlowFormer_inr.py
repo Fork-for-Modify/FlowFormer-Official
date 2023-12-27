@@ -140,9 +140,9 @@ if __name__ == '__main__':
     parser.add_argument('--mixed_precision', action='store_true', help='use mixed precision')
 
     args = parser.parse_args()
-
+    
     if args.stage == 'sintel_inr':
-        from configs.sintel import get_cfg
+        from configs.sintel_inr import get_cfg
 
 
     cfg = get_cfg()

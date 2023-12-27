@@ -19,3 +19,11 @@ python evaluate_FlowFormer_inr.py --dataset sintel_inr --model logs/sintel_inr/r
 ```shell
 python -u train_FlowFormer_inr.py --name sintel_inr --stage sintel_inr --validation sintel_inr --image_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_train_ratio_1_steps_20000_dec/ --flow_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_train_resized_flows/
 ```
+
+----
+
+train with non-inr data (resize)
+
+```shell
+python -u train_FlowFormer_inr.py --name sintel_inr --stage sintel_inr --validation sintel_inr --image_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_train_resized_images/ --flow_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_train_resized_flows/
+```
