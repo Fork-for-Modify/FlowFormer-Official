@@ -104,15 +104,14 @@ def train(cfg):
                 PATH = '%s/%d_%s.pth' % (cfg.log_dir, total_steps+1, cfg.name)
                 torch.save(model.state_dict(), PATH)
 
-                results = {}
-                for val_dataset in cfg.validation:
-                    if val_dataset == 'sintel_inr':
-                        results.update(evaluate_inr.validate_sintel_inr(model.module))
+                if cfg.validation:
+                    results = {}
+                    for val_dataset in cfg.validation:
+                        if val_dataset == 'sintel_inr':
+                            results.update(evaluate_inr.validate_sintel_inr(model.module))
 
-
-                logger.write_dict(results)
-
-                model.train()
+                    logger.write_dict(results)
+                    model.train()
 
             total_steps += 1
 
@@ -121,11 +120,11 @@ def train(cfg):
                 break
 
     logger.close()
-    PATH = cfg.log_dir + '/final'
+    PATH = cfg.log_dir + '/final.pth'
     torch.save(model.state_dict(), PATH)
 
-    PATH = f'checkpoints/{cfg.stage}.pth'
-    torch.save(model.state_dict(), PATH)
+    # PATH = f'checkpoints/{cfg.stage}.pth'
+    # torch.save(model.state_dict(), PATH)
 
     return PATH
 
@@ -133,14 +132,14 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', default='flowformer', help="name your experiment")
     parser.add_argument('--stage', help="determines which dataset to use for training")
-    parser.add_argument('--validation', type=str, nargs='+')
+    parser.add_argument('--validation', type=str, default=None, nargs='+')
     parser.add_argument('--image_root', help="images in dataset")
     parser.add_argument('--flow_root', help="flows in dataset")
     parser.add_argument('--occlu_root', default=None, help="occlusion maps in dataset")
     parser.add_argument('--mixed_precision', action='store_true', help='use mixed precision')
 
     args = parser.parse_args()
-    
+
     if args.stage == 'sintel_inr':
         from configs.sintel_inr import get_cfg
 

@@ -22,8 +22,11 @@ python -u train_FlowFormer_inr.py --name sintel_inr --stage sintel_inr --validat
 
 ----
 
-train with non-inr data (resize)
+train & test with non-inr data (resize)
 
 ```shell
 python -u train_FlowFormer_inr.py --name sintel_inr --stage sintel_inr --validation sintel_inr --image_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_train_resized_images/ --flow_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_train_resized_flows/
+
+python evaluate_FlowFormer_inr.py --dataset sintel_inr --model checkpoints/final.pth --image_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_test_resized_images/ --flow_root //ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_test_resized_flows/ --occlu_root /ssd/0/yrz/Dataset/Sintel_INR/Sintel_custom_test_resized_occlusions/
 ```
+
